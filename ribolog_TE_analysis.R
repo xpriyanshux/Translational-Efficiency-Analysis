@@ -18,7 +18,7 @@ library(purrr)   # for reduce()
 # -----------------------------------------------
 # STEP 1: Define file paths
 # -----------------------------------------------
-base_dir <- "D:/New folder/rome/rrrr/ROME ASSIGNMENT"
+base_dir <- "file/path"
 rna_dir  <- file.path(base_dir, "counts_rna")
 ribo_dir <- file.path(base_dir, "counts_ribo")
 
@@ -158,3 +158,4 @@ te_sig <- bind_rows(te_up, te_down)
 write.csv(te_sig,   "significant_TE_transcripts.csv", row.names = FALSE)
 write.csv(te_up,    "TE_upregulated.csv", row.names = FALSE)
 write.csv(te_down,  "TE_downregulated.csv", row.names = FALSE)
+
