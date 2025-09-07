@@ -1,9 +1,11 @@
 # Translational Efficiency Analysis with Ribolog
 
-**Author:** Priyanshu Panda  
 **Purpose:** Identify transcripts with **differential translational efficiency (TE)** between treatment (**H**) and control (**N**) using RNA-seq and Ribo-seq count data.
 
 ---
+
+<img width="1232" height="422" alt="image" src="https://github.com/user-attachments/assets/358635ff-839f-4e7c-9903-76d5aae76c3e" />
+
 
 ## 📌 Overview
 This repository contains an R-based workflow that processes RNA-seq and Ribo-seq counts, merges them into a Ribolog-ready matrix, and performs **logit-seq TE differential analysis**.  
@@ -96,7 +98,16 @@ The pipeline outputs:
 - If you already have a **combined RNA+RPF matrix**, begin from **Step 5**.  
 - Interpretation:  
   - **Positive log2FC** → higher TE in treatment (**H**)  
-  - **Negative log2FC** → lower TE in treatment (**H**)  
+  - **Negative log2FC** → lower TE in treatment (**H**)
+ 
+
+---
+
+## 📚 References
+
+- **Ribolog**:  
+  [https://github.com/ohlerlab/Ribolog](https://github.com/ohlerlab/Ribolog)
+
 
 
 
