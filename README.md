@@ -1,37 +1,102 @@
-# Translational-Efficiency-Analysis
+# Translational Efficiency Analysis with Ribolog
 
-This workflow processes raw RNA-seq and Ribo-seq count files, merges them into a Ribolog-ready matrix, and runs logit-seq based TE differential analysis. The pipeline generates:
+**Author:** Priyanshu Panda  
+**Purpose:** Identify transcripts with **differential translational efficiency (TE)** between treatment (**H**) and control (**N**) using RNA-seq and Ribo-seq count data.
 
-A combined RNA+RPF count matrix
+---
 
-A sample design table (metadata for Ribolog)
+## 📌 Overview
+This repository contains an R-based workflow that processes RNA-seq and Ribo-seq counts, merges them into a Ribolog-ready matrix, and performs **logit-seq TE differential analysis**.  
 
-Differential TE results with adjusted p-values (BH correction)
+The pipeline outputs:  
+- Combined RNA+RPF matrix  
+- Sample metadata table  
+- Differential TE results (BH-adjusted p-values)  
+- Volcano plots  
+- Lists of significantly upregulated and downregulated transcripts  
 
-Volcano plots for visualization
+---
 
-Lists of significantly upregulated and downregulated transcripts
+## ⚙️ Requirements
 
-⚙️ Requirements
-Software
+- R (≥ 4.0)  
+- [Ribolog](https://github.com/ohlerlab/Ribolog)  
+- tidyverse packages:  
+  - `dplyr`  
+  - `readr`  
+  - `stringr`  
+  - `ggplot2`  
+  - `purrr`  
 
-R (≥ 4.0)
 
-Ribolog
+## 🚀 Workflow
 
-tidyverse packages
- (dplyr, readr, stringr, ggplot2, purrr)
+1. **Load libraries**  
+   Import Ribolog + tidyverse dependencies.  
 
-Input files
+2. **Define file paths**  
+   Set base directory and count file locations.  
 
-RNA-seq count files (*_RNA_RNA.out)
+3. **Merge RNA-seq counts**  
+   - Reads all `*_RNA_RNA.out` files.  
+   - Removes transcript version numbers.  
 
-Tab-delimited, containing at least: GeneID and counts
+4. **Merge Ribo-seq counts**  
+   - Reads all `*_Ribo.out` files.  
+   - Same preprocessing as RNA.  
 
-Gene IDs may include version numbers (e.g., ENSG000001.1)
+5. **Combine RNA + Ribo matrices**  
+   - Creates Ribolog-ready matrix (`rr_matrix.tsv`).  
 
-Ribo-seq count files (*_Ribo.out)
+6. **Create sample design matrix**  
+   - Defines **condition**: control (**N**) vs treatment (**H**).  
+   - Defines **read type**: RNA or RPF.  
 
-Same structure as RNA count files
+7. **Filter + run Ribolog**  
+   - Applies minimum count filter.  
+   - Runs `logit_seq()` to identify differential TE genes.  
 
-⚠️ If you already have a combined RNA+RPF count table, you can skip the merging steps.
+8. **Visualize with volcano plot**  
+   - X-axis: log2 TE fold change  
+   - Y-axis: -log10 adjusted p-value  
+   - Significant transcripts in **red**.  
+
+9. **Extract significant transcripts**  
+   - Thresholds: `padj < 0.05` and `|log2FC| > 1`  
+   - Saves:  
+     - `significant_TE_transcripts.csv`  
+     - `TE_upregulated.csv`  
+     - `TE_downregulated.csv`  
+
+---
+
+## 📊 Example Volcano Plot
+
+- Gray points → non-significant genes  
+- Red points → significant TE changes  
+- Vertical dashed lines → log2FC ±1  
+- Horizontal dashed line → adj. p-value = 0.05  
+
+---
+
+## 📝 Outputs
+
+- `rr_matrix.tsv` → merged RNA+RPF matrix  
+- `sample_info.tsv` → sample metadata  
+- `significant_TE_transcripts.csv` → significant TE results  
+- `TE_upregulated.csv` → TE up in treatment (H)  
+- `TE_downregulated.csv` → TE down in treatment (H)  
+- Volcano plot (in R session)  
+
+---
+
+## 🔍 Notes
+
+- If you only analyze **RNA-seq**, skip the Ribo merge and Ribolog run.  
+- If you already have a **combined RNA+RPF matrix**, begin from **Step 5**.  
+- Interpretation:  
+  - **Positive log2FC** → higher TE in treatment (**H**)  
+  - **Negative log2FC** → lower TE in treatment (**H**)  
+
+
+
